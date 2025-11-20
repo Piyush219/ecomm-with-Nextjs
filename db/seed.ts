@@ -1,5 +1,5 @@
 import * as dotenv from 'dotenv';
-import { PrismaClient } from "@/lib/generated/prisma/client";
+import { PrismaClient } from '@prisma/client';
 import sampleData from "./sample-data";
 
 dotenv.config();
