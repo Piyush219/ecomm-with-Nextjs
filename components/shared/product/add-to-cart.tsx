@@ -18,7 +18,7 @@ export const AddToCart = ({ item }: { item: CartItem }) => {
       return;
     }
 
-    toast.success(`${item.name} added to cart`);
+    toast.success(res.message || `${item.name} added to cart`);
   };
 
   return (
