@@ -7,7 +7,6 @@ import type { NextAuthConfig } from "next-auth";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
-
 export const config = {
   pages: {
     signIn: "/sign-in",
@@ -36,7 +35,7 @@ export const config = {
         if (user && user.password) {
           const isMatch = compareSync(
             credentials.password as string,
-            user.password
+            user.password,
           );
 
           if (isMatch) {
@@ -59,7 +58,7 @@ export const config = {
       session.user.id = token.sub;
       session.user.role = token.role;
       session.user.name = token.name;
-      
+
       if (trigger === "update") {
         session.user.name = user.name;
       }
@@ -70,6 +69,7 @@ export const config = {
 
     async jwt({ token, user, trigger, session }: any) {
       if (user) {
+        token.id = user.id;
         token.role = user.role;
 
         if (user.name === "NO_NAME") {
@@ -80,15 +80,56 @@ export const config = {
             data: { name: token.name },
           });
         }
+        if (trigger == "signIn" || trigger == "signUp") {
+          const cookiesObject = await cookies();
+          const sessionCartId = cookiesObject.get("sessionId")?.value;
+
+          if (sessionCartId) {
+            const sessionCart = await prisma.cart.findFirst({
+              where: { sessionCartId },
+            });
+
+            if (sessionCart) {
+              // Delete current user cart
+              await prisma.cart.deleteMany({
+                where: { id: user.id },
+              });
+
+              // Assign new cart
+              await prisma.cart.update({
+                where: { id: sessionCart.id },
+                data: { userId: user.id },
+              });
+            }
+          }
+        }
       }
       return token;
     },
 
-    authorized({ request, auth}) {
+    authorized({ request, auth }) {
+      // Array of regex of paths to protect
+      const protectedPath = [
+        /\/shipping-address/,
+        /\/payment-method/,
+        /\/place-order/,
+        /\/profile/,
+        /\/user\/(.*)/,
+        /\/order\/(.*)/,
+        /\/admin/,
+      ];
+
+      // Getting path name
+
+      const { pathname } = request.nextUrl;
+
+      // Checking if user is not authenticated and accessing a protected path
+      if (!auth && protectedPath.some((p) => p.test(pathname))) return false;
+
       // check for session cart cookie
-      if(!request.cookies.get("sessionCartId")) {
+      if (!request.cookies.get("sessionCartId")) {
         const sessionCartId = crypto.randomUUID();
-        
+
         const newRequestHeaders = new Headers(request.headers);
 
         const response = NextResponse.next({
@@ -96,7 +137,7 @@ export const config = {
             headers: newRequestHeaders,
           },
         });
-        
+
         response.cookies.set("sessionCartId", sessionCartId, {
           httpOnly: true,
           // secure: process.env.NODE_ENV === "production",
@@ -108,7 +149,7 @@ export const config = {
       } else {
         return true;
       }
-    }
+    },
   },
 } satisfies NextAuthConfig;
 
