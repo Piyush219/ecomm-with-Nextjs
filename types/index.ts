@@ -1,4 +1,12 @@
-import { cartItemSchema, insertCartSchema, insertProductSchema, shippingAddressSchema } from "@/lib/validators";
+import {
+  cartItemSchema,
+  insertCartSchema,
+  insertOrderItemSchema,
+  insertOrderSchema,
+  insertProductSchema,
+  shippingAddressSchema,
+} from "@/lib/validators";
+import { OrderItem } from "@prisma/client";
 import z from "zod";
 
 export type Product = z.infer<typeof insertProductSchema> & {
@@ -10,3 +18,14 @@ export type Product = z.infer<typeof insertProductSchema> & {
 export type Cart = z.infer<typeof insertCartSchema>;
 export type CartItem = z.infer<typeof cartItemSchema>;
 export type ShippingAddress = z.infer<typeof shippingAddressSchema>;
+export type OderItem = z.infer<typeof insertOrderItemSchema>;
+export type Order = z.infer<typeof insertOrderSchema> & {
+  id: string;
+  createdAt: Date;
+  isPaid: Boolean;
+  paidAt: Date;
+  isDelivered: Boolean;
+  deliveredAt: Date | null;
+  orderItems: OrderItem[];
+  user: { name: string; email: string };
+};
