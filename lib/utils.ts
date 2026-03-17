@@ -66,6 +66,13 @@ export function formatCurrency(amount: number | string | null) {
   }
 }
 
+// Format Number
+const NUMBER_FORMATTER = new Intl.NumberFormat('INR')
+
+export function formatNumber(number: number) {
+  return NUMBER_FORMATTER.format(number);
+}
+
 // Shorten the UUID
 
 export function formatId(id: string) {
