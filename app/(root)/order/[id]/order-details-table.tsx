@@ -15,7 +15,7 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 
-const OrderDetailsTable = ({ order }: { order: Order }) => {
+const OrderDetailsTable = ({ order, isAdmin }: { order: Order; isAdmin: boolean }) => {
   const {
     id,
     shippingAddress,
