@@ -173,65 +173,76 @@ body {
   --sidebar-ring: oklch(0.551 0.027 264.364);
 }
 
-
-
 /* globals.css — put after @tailwind base/components/utilities */
 
-.wrapper{
-  max-width: 80rem;        /* max-w-7xl */
-  margin-inline: auto;     /* centers horizontally */
-  padding: 1.25rem;        /* p-5 */
+.wrapper {
+  max-width: 80rem; /* max-w-7xl */
+  margin-inline: auto; /* centers horizontally */
+  padding: 1.25rem; /* p-5 */
   width: 100%;
 }
 
-@media (min-width: 768px){
-  .wrapper{
+@media (min-width: 768px) {
+  .wrapper {
     padding-inline: 2.5rem; /* md:px-10 */
   }
 }
 
-.flex-start{
+.flex-start {
   display: flex;
   justify-content: flex-start;
   align-items: center;
 }
 
-.flex-center{
+.flex-center {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.flex-between{
+.flex-between {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.h1-bold{
+.h1-bold {
   font-weight: 700;
   font-size: 1.875rem; /* text-3xl */
 }
 
-@media (min-width: 1024px){
-  .h1-bold{ font-size: 2.25rem; } /* lg:text-4xl */
+@media (min-width: 1024px) {
+  .h1-bold {
+    font-size: 2.25rem;
+  } /* lg:text-4xl */
 }
 
-.h2-bold{
+.h2-bold {
   font-weight: 700;
   font-size: 1.5rem; /* text-2xl */
 }
 
-@media (min-width: 1024px){
-  .h2-bold{ font-size: 1.875rem; } /* lg:text-3xl */
+@media (min-width: 1024px) {
+  .h2-bold {
+    font-size: 1.875rem;
+  } /* lg:text-3xl */
 }
 
-.h3-bold{
+.h3-bold {
   font-weight: 700;
   font-size: 1.25rem; /* text-xl */
 }
 
-@media (min-width: 1024px){
-  .h3-bold{ font-size: 1.5rem; } /* lg:text-2xl */
+@media (min-width: 1024px) {
+  .h3-bold {
+    font-size: 1.5rem;
+  } /* lg:text-2xl */
 }
 
+html.dark .upload-field .text-white {
+  color: #ffffff !important;
+}
+
+.upload-field .text-white {
+  color: #000 !important;
+}

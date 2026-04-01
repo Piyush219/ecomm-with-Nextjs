@@ -208,7 +208,7 @@ export async function getAllOrders({
   const data = await prisma.order.findMany({
     orderBy: { createdAt: "desc" },
     take: limit,
-    skip: (page - 1) * limit,
+    // skip: (page - 1) * limit,
     include: { user: { select: { name: true } } },
   });
 
